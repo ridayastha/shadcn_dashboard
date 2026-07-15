@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import AppSidebar from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -29,11 +30,13 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange>
-          <AppSidebar />
+            <SidebarProvider>
+              <AppSidebar />
           <main className="w-full">
             <Navbar />
             <div className="px-4">{children}</div>
           </main>
+            </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

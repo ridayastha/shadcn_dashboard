@@ -17,17 +17,20 @@ function DropdownMenuPortal({ ...props }: MenuPrimitive.Portal.Props) {
 // 1. If you want to keep the "asChild" API style:
 function DropdownMenuTrigger({ 
   children, 
-  asChild, 
+  asChild,
+  render, 
   ...props 
-}: MenuPrimitive.Trigger.Props & { asChild?: boolean }) {
+}: MenuPrimitive.Trigger.Props & { asChild?: boolean; render?: React.ReactElement }) {
+  // Determine which element to delegate to Base UI
+  const elementToRender = render || (asChild && React.isValidElement(children) ? children : undefined)
+
   return (
     <MenuPrimitive.Trigger 
       data-slot="dropdown-menu-trigger" 
-      // If asChild is true, we pass the child element directly to Base UI's render prop
-      render={asChild && React.isValidElement(children) ? children : undefined}
+      render={elementToRender}
       {...props}
     >
-      {asChild ? undefined : children}
+      {elementToRender ? undefined : children}
     </MenuPrimitive.Trigger>
   )
 }
@@ -149,7 +152,7 @@ function DropdownMenuSubContent({
   return (
     <DropdownMenuContent
       data-slot="dropdown-menu-sub-content"
-      className={cn("w-auto min-w-[96px] rounded-none bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
+      className={cn("w-auto min-w-24 rounded-none bg-popover text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95", className )}
       align={align}
       alignOffset={alignOffset}
       side={side}
